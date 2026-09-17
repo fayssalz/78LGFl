@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Faceting Studio — Crown &amp; Pavilion Viewer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,380;0,9..144,500;0,9..144,600;1,9..144,460&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <header class="masthead">
+    <div class="wordmark">Faceting Studio</div>
+    <div class="tagline">Crown &amp; pavilion angle viewer</div>
+  </header>
+
+  <main class="layout">
+
+    <!-- Image stage -->
+    <div class="stage-frame">
+      <div class="stage" id="stage">
+        <div class="stage-vignette" aria-hidden="true"></div>
+        <img class="stage-img" id="imgA" alt="Diamond rendered at the selected crown and pavilion angles">
+        <img class="stage-img" id="imgB" alt="">
+        <div class="stage-error" id="stageError" hidden></div>
+        <div class="stage-loader" id="stageLoader">
+          <div class="loader-ring"></div>
+          <div class="loader-text">Opening the atelier…</div>
+        </div>
+      </div>
+      <div class="preload-status" id="preloadStatus" hidden>
+        <div class="preload-bar"><div class="preload-bar__fill" id="preloadFill"></div></div>
+        <span id="preloadLabel">Preparing full gallery…</span>
+      </div>
+    </div>
+
+    <!-- Vertical crown slider -->
+    <div class="slider slider--vertical" id="crownSlider">
+      <div class="slider__label">Crown</div>
+      <div class="slider__track">
+        <div class="slider__fill"></div>
+        <div class="slider__handle"></div>
+      </div>
+      <div class="slider__value" id="crownValue">—</div>
+    </div>
+
+    <!-- Horizontal pavilion slider -->
+    <div class="slider slider--horizontal" id="pavilionSlider">
+      <div class="slider__label">Pavilion</div>
+      <div class="slider__track">
+        <div class="slider__fill"></div>
+        <div class="slider__handle"></div>
+      </div>
+      <div class="slider__value" id="pavilionValue">—</div>
+    </div>
+
+    <!-- Fixed specification card -->
+    <aside class="spec-card" aria-label="Fixed cut specifications">
+      <div class="spec-card__title">Fixed specification</div>
+      <dl class="spec-list" id="specList">
+        <div class="spec-row"><dt>Table</dt><dd id="specTable">—</dd></div>
+        <div class="spec-row"><dt>Star facet</dt><dd id="specStar">—</dd></div>
+        <div class="spec-row"><dt>Lower girdle</dt><dd id="specLower">—</dd></div>
+      </dl>
+    </aside>
+
+  </main>
+
+  <footer class="hint" id="hint">
+    Drag either slider, use arrow keys, or swipe with two fingers on a trackpad while hovering over a slider.
+  </footer>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
