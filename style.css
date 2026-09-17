@@ -151,7 +151,7 @@ body{
   font-size: 13px;
   line-height: 1.5;
   color: var(--ivory-dim);
-  background: rgba(12,11,9,0.86);
+  background: radial-gradient(circle, transparent 66%, rgba(12, 11, 9, 0.86) 68.5%);
 }
 .stage-error b{ color: var(--brass-bright); font-weight: 500; }
 

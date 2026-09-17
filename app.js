@@ -167,6 +167,7 @@ class AngleSlider {
     this.handle = el.querySelector(".slider__handle");
     this.index = initialIndex ?? Math.floor(steps.length / 2);
     this.dragging = false;
+    this.el.style.touchAction = "none";
 
     this.el.setAttribute("tabindex", "0");
     this.el.setAttribute("role", "slider");
@@ -180,41 +181,42 @@ class AngleSlider {
 
   get value() { return this.steps[this.index]; }
 
-  _indexFromPointer(clientX, clientY) {
-    const rect = this.track.getBoundingClientRect();
-    let fraction;
-    if (this.orientation === "horizontal") {
-      fraction = rect.width ? (clientX - rect.left) / rect.width : 0;
-    } else {
-      // vertical: top of track = max value, bottom = min value
-      fraction = rect.height ? 1 - (clientY - rect.top) / rect.height : 0;
-    }
-    fraction = Math.min(1, Math.max(0, fraction));
-    return Math.round(fraction * (this.steps.length - 1));
-  }
-
   _bind() {
     const onDown = (e) => {
       this.dragging = true;
       this.el.classList.add("is-active");
       this.el.focus();
       try { this.el.setPointerCapture(e.pointerId); } catch (err) {}
-      this.setIndex(this._indexFromPointer(e.clientX, e.clientY));
+
+      this._startX = e.clientX;
+      this._startY = e.clientY;
+      this._startIndex = this.index;
+
       window.addEventListener("pointermove", onMove);
       window.addEventListener("pointerup", onUp);
     };
+
     const onMove = (e) => {
       if (!this.dragging) return;
-      this.setIndex(this._indexFromPointer(e.clientX, e.clientY));
+      const rect = this.track.getBoundingClientRect();
+      const range = this.steps.length - 1;
+      let delta = 0;
+      if (this.orientation === "horizontal") {
+        delta = (e.clientX - this._startX) / (rect.width || 1);
+      } else {
+        delta = (this._startY - e.clientY) / (rect.height || 1);
+      }
+      this.setIndex(Math.round(this._startIndex + delta * range));
     };
+
     const onUp = () => {
       this.dragging = false;
       this.el.classList.remove("is-active");
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", onUp);
     };
-    this.track.addEventListener("pointerdown", onDown);
-    this.handle.addEventListener("pointerdown", onDown);
+
+    this.el.addEventListener("pointerdown", onDown);
 
     // Two-finger trackpad swipe (and mouse wheel) while hovering the slider.
     this.el.addEventListener("wheel", (e) => {
